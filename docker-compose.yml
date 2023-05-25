@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_DATABASE=weather
+      - POSTGRES_SERVER=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_USERNAME=userForLocal
+      - POSTGRES_PASSWORD=P@ssForloc@l
+      - POSTGRES_DEFAULT_SCHEMA=public
+      - DB_CONN_POOL_MIN_IDLE=2
+      - DB_CONN_POOL_MAX=4
+    ports:
+      - "9094:9094"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_PASSWORD: P@ssForloc@l
+      POSTGRES_USER: userForLocal
+      POSTGRES_DB: weather
+      POSTGRES_DEFAULT_SCHEMA: public
+    ports:
+      - "5436:5432"

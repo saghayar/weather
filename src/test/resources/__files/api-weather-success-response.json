@@ -1,0 +1,11 @@
+{
+  "temperature" : {
+    "value" : 18.9,
+    "unit" : "CELSIUS"
+  },
+  "wind" : {
+    "speed" : 9.3,
+    "direction" : 106.0
+  },
+  "timestamp" : "2023-05-24T11:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "country": "Azerbaijan",
+  "countryCode": "AZ",
+  "region": "BA",
+  "regionName": "Baku City",
+  "city": "Baku",
+  "zip": "",
+  "lat": 50.0,
+  "lon": 43.0,
+  "timezone": "Asia/Baku",
+  "isp": "Beeonline Ojsc",
+  "org": "bla bla",
+  "as": "Bla bla",
+  "query": "32.12.134.195"
+}

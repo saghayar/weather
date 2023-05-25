@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="samir.aghayarov" id="default_client_api_keys">
+        <insert tableName="client_api_keys">
+            <column name="api_key" value="M2ZjNDZmOWItMzJmMC00YzhlLWE3ZTctNDY3YzQ2YzAzZjli"/>
+        </insert>
+        <insert tableName="client_api_keys">
+            <column name="api_key" value="OThiNGJkNzEtMTZjMy00YTMzLThjN2QtZDM1N2JmMTJhNzIx"/>
+            <column name="revoked" valueBoolean="true"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

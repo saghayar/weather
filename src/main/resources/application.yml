@@ -1,0 +1,94 @@
+api:
+  version: v1
+
+server:
+  port: 9094
+
+  servlet:
+    context-path: /api/${api.version}
+  forward-headers-strategy: native
+  tomcat:
+    remoteip:
+      remote-ip-header: X-Forwarded-For
+
+springdoc:
+  api-docs:
+    path: /docs
+  swagger-ui:
+    operationsSorter: alpha
+    tagsSorter: alpha
+
+spring:
+  application:
+    name: weather-api
+  jpa:
+    show-sql: false
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        generate_statistics: false
+        format_sql: false
+        default_schema: ${POSTGRES_DEFAULT_SCHEMA:public}
+    hibernate.ddl-auto: validate
+  liquibase:
+    change-log: classpath:/db/changelog-master.xml
+    default-schema: ${POSTGRES_DEFAULT_SCHEMA:public}
+    enabled: true
+  cache:
+    type: simple #in memory cache
+
+
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 5000
+            readTimeout: 5000
+            loggerLevel: basic
+      circuitbreaker:
+        enabled: true
+        alphanumeric-ids:
+          enabled: true
+resilience4j:
+  circuitbreaker:
+    instances:
+      OpenMeteoFeignClientgetForecast:
+        minimumNumberOfCalls: 3
+        permittedNumberOfCallsInHalfOpenState: 1
+        waitDurationInOpenState: 3s
+        failureRateThreshold: 10
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+      IpApiFeignClientgetGeoLocationInfo:
+        minimumNumberOfCalls: 3
+        permittedNumberOfCallsInHalfOpenState: 1
+        waitDurationInOpenState: 3s
+        failureRateThreshold: 10
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+  timelimiter:
+    instances:
+      OpenMeteoFeignClientgetForecast:
+        timeoutDuration: 10s
+      IpApiFeignClientgetGeoLocationInfo:
+        timeoutDuration: 10s
+
+postgres:
+  database: ${POSTGRES_DATABASE:weather}
+  server: ${POSTGRES_SERVER:localhost}
+  port: ${POSTGRES_PORT:5435}
+
+spring.datasource:
+  url: jdbc:postgresql://${postgres.server}:${postgres.port}/${postgres.database}
+  username: ${POSTGRES_USERNAME:userForLocal}
+  password: ${POSTGRES_PASSWORD:P@ssForloc@l}
+  hikari:
+    minimum-idle: ${DB_CONN_POOL_MIN_IDLE:2}
+    maximum-pool-size: ${DB_CONN_POOL_MAX:4}
+
+service:
+  ip-api:
+    url: http://ip-api.com
+  open-meteo:
+    url: https://api.open-meteo.com
+
